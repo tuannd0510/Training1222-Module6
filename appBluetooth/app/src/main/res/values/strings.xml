@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">module6</string>
+    <string name="action_settings">Settings</string>
+    <string name="turn_on">turn on</string>
+    <string name="turn_off">turn off</string>
+    <string name="scan">scan</string>
+    <string name="list_paired">List Paired</string>
+</resources>
