@@ -1,8 +1,13 @@
 package com.example.module6;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     ListView lvPaired;
 
     BluetoothAdapter myBluetoothAdapter;
+    Intent btEnablingIntent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,23 +39,35 @@ public class MainActivity extends AppCompatActivity {
         bTurnOff = findViewById(R.id.btnTurnOffBT);
         bScan = findViewById(R.id.btnScan);
         bPaired = findViewById(R.id.btnListPaired);
-
         lvScan = findViewById(R.id.lstScan);
         lvPaired = findViewById(R.id.lstPaired);
 
         myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
+        btEnablingIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 
         bTurnOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (myBluetoothAdapter==null){
                     Toast.makeText(getApplicationContext(),"Thiết bị của bạn không hỗ trợ bluetooth !!!",Toast.LENGTH_LONG).show();
-                }else{
-                    if (!myBluetoothAdapter.isEnabled()){
-                        startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE),1);
-                    }
+                }else if (!myBluetoothAdapter.isEnabled()){
+                    // Caller
+                    getResult.launch(btEnablingIntent);
                 }
+            }
+            // Receivers
+            ActivityResultLauncher<Intent> getResult = registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    new ActivityResultCallback<ActivityResult>() {
+                        @Override
+                        public void onActivityResult(ActivityResult result) {
+                            if (result.getResultCode() == RESULT_OK){
+                                Toast.makeText(getApplicationContext(),"đã BẬT bluetooth !!!",Toast.LENGTH_LONG).show();
+                            }else if (result.getResultCode() == RESULT_CANCELED){
+                                Toast.makeText(getApplicationContext(),"đã từ chối bật bluetooth !!!",Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });{
             }
         });
 
@@ -63,17 +82,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode ==1){
-            if (resultCode==RESULT_OK){
-                Toast.makeText(getApplicationContext(),"đã BẬT bluetooth !!!",Toast.LENGTH_LONG).show();
-            }else if (resultCode==RESULT_CANCELED){
-                Toast.makeText(getApplicationContext(),"đã từ chối bật bluetooth !!!",Toast.LENGTH_LONG).show();
+        bPaired.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
-        }
+        });
     }
 }
