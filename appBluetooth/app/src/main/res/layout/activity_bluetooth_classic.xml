@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".BluetoothClassicActivity">
+
+    <!--    buttons-->
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="2">
+        <Button
+            android:id="@+id/btnTurnOnBT"
+            android:text="@string/turn_on"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_margin="1dp"/>
+        <Button
+            android:id="@+id/btnTurnOffBT"
+            android:text="@string/turn_off"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_margin="1dp"/>
+
+        <Button
+            android:id="@+id/btnScan"
+            android:text="@string/scan"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_margin="1dp"/>
+        <Button
+            android:id="@+id/btnListPaired"
+            android:text="@string/list_paired"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_margin="1dp"/>
+    </GridLayout>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="2">
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Scan devices"/>
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Paired devices"/>
+
+        <ListView
+            android:id="@+id/lstScan"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"/>
+        <ListView
+            android:id="@+id/lstPaired"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"/>
+    </GridLayout>
+
+</LinearLayout>
