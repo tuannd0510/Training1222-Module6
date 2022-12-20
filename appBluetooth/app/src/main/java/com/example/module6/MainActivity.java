@@ -2,6 +2,7 @@ package com.example.module6;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -25,19 +26,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button bBTSocket = findViewById(R.id.btnBTSocket);
-        bBTSocket.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this,BluetoothSocketActivity.class);
-                startActivity(i);
-            }
-        });
 
 
     }
-
-
-
-
 }

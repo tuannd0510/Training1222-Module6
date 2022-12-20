@@ -15,19 +15,5 @@
         android:text="Classic"
         />
 
-    <Button
-        android:id="@+id/btnBTBLE"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="BLE"
-        />
-
-
-    <Button
-        android:id="@+id/btnBTSocket"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Socket Client"
-        />
 
 </LinearLayout>

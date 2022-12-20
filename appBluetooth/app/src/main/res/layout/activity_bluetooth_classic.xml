@@ -9,23 +9,18 @@
     tools:context=".BluetoothClassicActivity">
 
     <!--    buttons-->
+    <Button
+        android:id="@+id/btnSwitchBlue"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="1dp"/>
+
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:columnCount="2"
-        android:rowCount="2">
-        <Button
-            android:id="@+id/btnTurnOnBT"
-            android:text="@string/turn_on"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:layout_margin="1dp"/>
-        <Button
-            android:id="@+id/btnTurnOffBT"
-            android:text="@string/turn_off"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:layout_margin="1dp"/>
+        android:rowCount="1">
+
 
         <Button
             android:id="@+id/btnScan"
@@ -64,5 +59,6 @@
             android:layout_width="200dp"
             android:layout_height="match_parent"/>
     </GridLayout>
+
 
 </LinearLayout>
