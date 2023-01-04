@@ -53,11 +53,11 @@
         <ListView
             android:id="@+id/lstScan"
             android:layout_width="200dp"
-            android:layout_height="match_parent"/>
+            android:layout_height="400dp"/>
         <ListView
             android:id="@+id/lstPaired"
             android:layout_width="200dp"
-            android:layout_height="match_parent"/>
+            android:layout_height="400dp"/>
     </GridLayout>
 
 

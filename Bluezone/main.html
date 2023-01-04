@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>generateUserId</title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js">
+    </script>
+	<script>
+    function generateUserId() {
+        var t = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+            n = t.length,
+            o = '';
+        // new Date().getTime() tính số ms từ ngày 1 tháng 1 năm 1970 đến hiện tại
+        // Math.seedrandom() 
+        Math.seedrandom(new Date().getTime()); 
+        console.log("seed = " + Math.seedrandom(new Date().getTime()));
+        console.log("date = " + new Date().getTime());
+        for (var s = 0; s < 6; s++) {
+            // Math.floor() làm tròn đến int
+            // Math.random() lấy số ngẫu nhiên từ 0 đến 1
+            o += t.charAt(Math.floor(Math.random() * n));
+            console.log(
+                "char at "+
+                Math.floor(Math.random() * n) + 
+                " = " + 
+                t.charAt(Math.floor(Math.random() * n))
+                );
+            console.log("id = "+o);
+        }
+        return o;
+        
+    }
+    // generateUserId();    
+    console.log("iddd = " + generateUserId());
+	</script>
+</body>
+</html>
+            
