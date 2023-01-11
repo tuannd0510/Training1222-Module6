@@ -10,6 +10,10 @@ import java.util.UUID;
 public class ServerThread extends Thread{
 
 //    private BluetoothServerSocket serverSocket;
+//    private static final String APP = "MYAPP";
+//
+//    private static final UUID myUUID =
+//            UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
 //
 //
 //    public ServerThread(BluetoothAdapter bluetoothAdapter){

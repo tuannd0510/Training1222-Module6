@@ -7,9 +7,9 @@ import java.io.IOException;
 
 public class ClientThread extends Thread{
 
-//    private BluetoothDevice device;
-//    private BluetoothSocket socket;
-//
+    private BluetoothDevice device;
+    private BluetoothSocket socket;
+
 //    public ClientThread (BluetoothDevice device)
 //    {
 //        this.device=device;

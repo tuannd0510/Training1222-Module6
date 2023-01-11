@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -17,11 +18,14 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,12 +39,13 @@ public class BluetoothClassicActivity extends AppCompatActivity {
 
     Button bSwitchBlue, bListScan, bListPaired;
     ListView lvScan, lvPaired;
+    // chat
+    Button bListen, bSend;
+    TextView msgBox;
+    EditText writeBox;
 
     Intent myEnablingIntent;
     Intent myDiscoverIntent;
-
-    BluetoothAdapter myBluetoothAdapter;
-    BroadcastReceiver myBroadcastReceiver;
 
     ArrayAdapter<String> stringArrayAdapterPaired;
     ArrayAdapter<String> stringArrayAdapterScan;
@@ -50,30 +55,19 @@ public class BluetoothClassicActivity extends AppCompatActivity {
     ArrayList<BluetoothDevice> bluetoothDeviceArrayListScan;  // list use for pair
     ArrayList<BluetoothDevice> bluetoothDeviceArrayListPaired; // list use for unpair
 
+    BluetoothAdapter myBluetoothAdapter;
     private static final String APP = "bt";
     private static final UUID myUUID= UUID.fromString("8ce255c0-223a-11e0-ac64-0803450c9a66");
+
+    private BroadcastReceiver receiverScan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth_classic);
 
-        bSwitchBlue = findViewById(R.id.btnSwitchBlue);
-        bListScan = findViewById(R.id.btnScan);
-        bListPaired = findViewById(R.id.btnListPaired);
-        lvScan = findViewById(R.id.lstScan);
-        lvPaired = findViewById(R.id.lstPaired);
-
-        myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        myEnablingIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE); // enable request
-        myDiscoverIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE); // discovery request
-
-        stringArrayListPaired = new ArrayList<>();
-        stringArrayListScan = new ArrayList<>();
-        bluetoothDeviceArrayListScan = new ArrayList<>();
-        bluetoothDeviceArrayListPaired = new ArrayList<>();
-
-        setTextSwitch();
+        findViewByIdes();
+        setTextSwitch(); // turn on/off bluetooth
 
         bSwitchBlue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,34 +100,85 @@ public class BluetoothClassicActivity extends AppCompatActivity {
         lvPaired.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                makeDeviceUnpair(position);
+//                makeDeviceUnpair(position);
+                Holder.getInstance().setiPosition(position);
+                PopupMenu popup = new PopupMenu(BluetoothClassicActivity.this, view);
+                popup.setOnMenuItemClickListener(BluetoothClassicActivity.this::settingsMenuClick);
+                popup.inflate(R.menu.settings_menu);
+                popup.show();
+            }
+        });
+
+        bListen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listenMessage();
+            }
+        });
+
+        bSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendMessage();
             }
         });
     }
 
-
     @Override
     protected void onDestroy() {
-        System.out.println("onDestroy: called");
+        Log.e(TAG,"onDestroy: called");
         super.onDestroy();
-
-//        unregisterReceiver(myBroadcastReceiver);
-        unregisterReceiver(myReceiver);
     }
 
     @Override
     protected void onStop() {
+        Log.e(TAG,"onStop: called");
         super.onStop();
-        if (receiverScan != null) {
+        if (receiverScan!=null || myReceiver!=null) {
             unregisterReceiver(receiverScan);
+            unregisterReceiver(myReceiver);
             receiverScan = null;
+            myReceiver = null;
         }
     }
-    private BroadcastReceiver receiverScan;
+
+    private void findViewByIdes(){
+        bSwitchBlue = findViewById(R.id.btnSwitchBlue);
+        bListScan = findViewById(R.id.btnScan);
+        bListPaired = findViewById(R.id.btnListPaired);
+        lvScan = findViewById(R.id.lstScan);
+        lvPaired = findViewById(R.id.lstPaired);
+        // chat
+        bListen = findViewById(R.id.btnListen);
+        bSend = findViewById(R.id.btnSend);
+        msgBox = findViewById(R.id.tvChat);
+        writeBox = findViewById(R.id.etWriteMsg);
+
+        myBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        myEnablingIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE); // enable request
+        myDiscoverIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE); // discovery request
+
+        stringArrayListPaired = new ArrayList<>();
+        stringArrayListScan = new ArrayList<>();
+        bluetoothDeviceArrayListScan = new ArrayList<>();
+        bluetoothDeviceArrayListPaired = new ArrayList<>();
+    }
+
+    /** Menu button to launch feature specific settings. */
+    protected boolean settingsMenuClick(MenuItem item) {
+        if (item.getItemId() == R.id.make_unpair_item) {
+            makeDeviceUnpair(Holder.getInstance().getiPosition());
+            return true;
+        } else if (item.getItemId() == R.id.make_chat){
+            startChat();
+            return true;
+        }
+        return false;
+    }
+
     private BroadcastReceiver myReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-
             if (BluetoothDevice.ACTION_BOND_STATE_CHANGED.equals(action)) {
                 final int state = intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE, BluetoothDevice.ERROR);
                 final int prevState = intent.getIntExtra(BluetoothDevice.EXTRA_PREVIOUS_BOND_STATE, BluetoothDevice.ERROR);
@@ -169,7 +214,7 @@ public class BluetoothClassicActivity extends AppCompatActivity {
     }
 
     private void turnOnOff(){
-        System.out.println("Button turn on Bluetooth");
+        Log.i(TAG,"turnOnOff: called");
         if (!myBluetoothAdapter.isEnabled()) {
             // Caller
             getResult.launch(myEnablingIntent);
@@ -181,7 +226,7 @@ public class BluetoothClassicActivity extends AppCompatActivity {
     }
 
     private void scanBR(){
-        Log.i(TAG,"Button Scan: Looking for unpaired device");
+        Log.i(TAG,"scanBR: called");
 
         stringArrayListScan.clear();
         if (receiverScan != null || myBluetoothAdapter.isDiscovering()) {
@@ -214,13 +259,9 @@ public class BluetoothClassicActivity extends AppCompatActivity {
         myBluetoothAdapter.startDiscovery();
     }
 
-    private void scanBLE(){
-
-    }
-
     private void listPair(){
         stringArrayListPaired.clear();
-        Log.i(TAG,"Button Paired: List paired devices");
+        Log.i(TAG,"listPair: called");
         Set<BluetoothDevice> pairedDevices = myBluetoothAdapter.getBondedDevices();
         if (pairedDevices.size() == 0) {
             Log.e(TAG,"size = 0");
@@ -269,4 +310,15 @@ public class BluetoothClassicActivity extends AppCompatActivity {
         registerReceiver(myReceiver, intentFilter);
     }
 
+    private void startChat(){
+
+    }
+
+    private void listenMessage(){
+
+    }
+
+    private void sendMessage(){
+
+    }
 }

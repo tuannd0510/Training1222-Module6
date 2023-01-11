@@ -8,13 +8,13 @@
     android:orientation="vertical"
     tools:context=".BluetoothClassicActivity">
 
-    <!--    buttons-->
+    <!-- switch -->
     <Button
         android:id="@+id/btnSwitchBlue"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_margin="1dp"/>
-
+    <!-- scan & pair -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
             <ListView
                 android:id="@+id/lstScan"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"/>
+                android:layout_height="250dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -62,10 +62,58 @@
             <ListView
                 android:id="@+id/lstPaired"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"/>
+                android:layout_height="250dp"/>
         </LinearLayout>
     </LinearLayout>
 
+    <!--  text view  -->
+    <EditText
+        android:id="@+id/etWriteMsg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="text message"/>
+    <TextView
+        android:id="@+id/tvChat"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="5dp"
+        android:background="@color/purple_200"
+        android:textAlignment="center"
+        tools:text="message" />
 
+
+    <!-- button send & listen   -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/btnListen"
+                android:text="Listen"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="1dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/btnSend"
+                android:text="Send"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="1dp"/>
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>
