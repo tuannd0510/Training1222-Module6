@@ -1,6 +1,6 @@
-package com.example.module6;
+package com.example.module6.chat;
 
-import static com.example.module6.Flags.*;
+import static com.example.module6.chat.Flags.*;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothServerSocket;
@@ -14,7 +14,7 @@ import java.util.UUID;
 public class ServerThread extends Thread{
 
     private BluetoothServerSocket serverSocket;
-    Handler handler;
+    private Handler handler;
 
     public ServerThread(BluetoothAdapter bluetoothAdapter, String APP, UUID myUUID, Handler handler){
         this.handler = handler;

@@ -1,6 +1,6 @@
-package com.example.module6;
+package com.example.module6.chat;
 
-import static com.example.module6.Flags.*;
+import static com.example.module6.chat.Flags.*;
 
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -35,7 +35,7 @@ public class ClientThread extends Thread{
             message.what=STATE_CONNECTED;
             handler.sendMessage(message);
 
-            SendReceiveThread sendReceive=new SendReceiveThread(socket, handler);
+            SendReceiveThread sendReceive = new SendReceiveThread(socket, handler);
             sendReceive.start();
 
         } catch (IOException e) {

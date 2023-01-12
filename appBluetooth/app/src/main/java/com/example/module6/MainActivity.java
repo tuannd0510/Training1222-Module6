@@ -26,6 +26,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button bChat = findViewById(R.id.btnBTChat);
+        bChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this,ChatActivity.class);
+                startActivity(i);
+            }
+        });
+
 
 
     }

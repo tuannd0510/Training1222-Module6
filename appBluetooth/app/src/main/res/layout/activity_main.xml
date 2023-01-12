@@ -12,7 +12,13 @@
         android:id="@+id/btnBTClassic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Classic"
+        android:text="Bluetooth"
+        />
+    <Button
+        android:id="@+id/btnBTChat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chat app"
         />
 
 

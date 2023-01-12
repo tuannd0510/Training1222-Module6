@@ -1,4 +1,4 @@
-package com.example.module6;
+package com.example.module6.chat;
 
 public interface Flags {
 

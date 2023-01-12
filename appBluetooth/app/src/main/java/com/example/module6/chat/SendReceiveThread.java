@@ -1,6 +1,6 @@
-package com.example.module6;
+package com.example.module6.chat;
 
-import static com.example.module6.Flags.STATE_MESSAGE_RECEIVED;
+import static com.example.module6.chat.Flags.STATE_MESSAGE_RECEIVED;
 
 import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
@@ -14,14 +14,14 @@ public class SendReceiveThread extends Thread{
     private final BluetoothSocket bluetoothSocket;
     private final InputStream inputStream;
     private final OutputStream outputStream;
-    Handler handler;
+    private Handler handler;
 
     public SendReceiveThread (BluetoothSocket socket, Handler handler)
     {
         bluetoothSocket=socket;
         this.handler = handler;
-        InputStream tempIn=null;
-        OutputStream tempOut=null;
+        InputStream tempIn = null;
+        OutputStream tempOut = null;
 
         try {
             tempIn = bluetoothSocket.getInputStream();

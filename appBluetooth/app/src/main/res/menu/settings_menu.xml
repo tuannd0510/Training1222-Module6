@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-  <item android:id="@+id/make_unpair_item"
-      android:title="unpair"/>
-  <item android:id="@+id/make_chat"
-      android:title="chat"/>
+<!--  <item android:id="@+id/make_unpair_item"-->
+<!--      android:title="unpair"/>-->
+<!--  <item android:id="@+id/make_chat"-->
+<!--      android:title="chat"/>-->
 </menu>
